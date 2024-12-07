@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- The document type declaration specifying HTML5. -->
+<head>
+  <!-- Head section containing metadata, stylesheets, and title of the page. -->
+  <meta charset="UTF-8">
+  <!-- Defines the character encoding for the document. UTF-8 supports many characters and symbols. -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Ensures the page is responsive, adjusting its layout based on the device's width. -->
+
+  <title>Return Calculator</title>
+  <!-- The title that appears in the browser tab. -->
+
+<style>
+  /* styles.css */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: white;
+    background-color: #1d1d1d; /* Dark background for a sleek look */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    width: 100%;
+    padding: 20px;
+    display: grid;
+    gap: 20px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    color: #00aaff; /* Electric blue */
+}
+
+main {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+}
+
+.input-section, .output-section {
+    padding: 20px;
+    border: 2px solid #00aaff; /* Electric blue border */
+    border-radius: 12px;
+}
+
+.input-section {
+    background-color: #222222; /* Dark grey background */
+}
+
+.output-section {
+    background-color: #222222; /* Dark grey background */
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #ffaa00; /* Bright yellow for labels */
+}
+
+input {
+    width: 95%;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 2px solid #00aaff; /* Electric blue border */
+    background-color: #333333; /* Darker input background for contrast */
+    color: white;
+    box-sizing: border-box;
+}
+
+input:focus {
+    border: 2px solid #ffaa00; /* Bright yellow border on focus */
+    outline: none;
+}
+
+.results {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.error-message {
+    color: #ff5555; /* Red error messages */
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+.graph-container {
+    margin: 20px auto;
+    height: 300px;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #00aaff; /* Electric blue borders for table */
+}
+
+thead {
+    background-color: #00aaff; /* Electric blue */
+    color: black;
+}
+
+button {
+    background-color: #ff0088; /* Neon pink */
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #ffaa00; /* Bright yellow on hover */
+}
+
+/* Media Queries for Responsiveness */
+
+/* Small devices (portrait tablets and large phones, 600px and down) */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px;
+    }
+
+    .container {
+        padding: 10px;
+        width: 100%;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    main {
+        grid-template-columns: 1fr; /* Stack input and output sections vertically */
+    }
+
+    .input-section, .output-section {
+        padding: 15px;
+    }
+
+    .results {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .form-group {
+        width: 100%;
+    }
+
+    input {
+        width: 100%;
+    }
+
+    table {
+        font-size: 0.9rem;
+    }
+
+    .graph-container {
+        height: 250px; /* Adjust graph size */
+    }
+}
+
+/* Extra small devices (phones in landscape mode, 400px and down) */
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.8rem;
+    }
+
+    .container {
+        padding: 10px;
+    }
+
+    .input-section, .output-section {
+        padding: 10px;
+    }
+
+    input {
+        font-size: 0.9rem;
+    }
+
+    button {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    .results {
+        flex-direction: column;
+    }
+
+    table th, table td {
+        padding: 8px;
+    }
+}
+
+/* Large devices (desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    .container {
+        width: 90%;
+    }
+
+    main {
+        grid-template-columns: 1fr 2fr;
+    }
+
+    header h1 {
+        font-size: 3rem;
+    }
+
+    .input-section, .output-section {
+        padding: 25px;
+    }
+
+    button {
+        padding: 15px;
+        font-size: 1.1rem;
+    }
+}
+
+</style> 
+</head>
+
+<body>
+  <!-- Body section where the visible content of the webpage is placed. -->
+  
+  <div class="container">
+    <!-- Container div that holds all content within the page for better layout control. -->
+    
+    <header>
+      <!-- Header section typically used for introductory content or navigational elements. -->
+      <h1>Return Calculator</h1>
+      <!-- Main title of the page. -->
+    </header>
+    
+    <main>
+      <!-- Main content area of the page. -->
+
+      <section class="input-section">
+        <!-- Section for input fields where the user can provide data. -->
+        
+        <form id="inputForm">
+          <!-- Form element for grouping the input fields. -->
+          
+          <div class="form-group">
+            <!-- Form group for better styling and organization of the input fields. -->
+            <label for="initialAmount">Initial Amount:</label>
+            <!-- Label for the initial amount input field. -->
+            
+            <input type="number" id="initialAmount" value="100000" min="100" max="100000000" required>
+            <!-- Input field for entering the initial investment amount. It is set with a default value of ₹100,000 and restricted between ₹100 and ₹100,000,000. -->
+          </div>
+          
+          <div class="form-group">
+            <!-- Form group for another input field. -->
+            <label for="startYear">Start Year:</label>
+            <!-- Label for the start year input field. -->
+            
+            <input type="number" id="startYear" value="2000" min="1970" max="2100" required>
+            <!-- Input field for the user to enter the start year, default is set to 2000, with valid years from 1970 to 2100. -->
+          </div>
+          
+          <div class="form-group">
+            <!-- Another form group for the next input field. -->
+            <label for="endYear">End Year:</label>
+            <!-- Label for the end year input field. -->
+            
+            <input type="number" id="endYear" value="2024" min="1970" max="2100" required>
+            <!-- Input field for entering the end year, default is set to 2024, with valid years from 1970 to 2100. -->
+          </div>
+          
+          <div class="form-group">
+            <!-- A final form group for the last input field. -->
+            <label for="apy">Annual Percentage Yield (APY):</label>
+            <!-- Label for the APY input field. -->
+            
+            <input type="number" id="apy" value="10" min="1" max="50" required>
+            <!-- Input field for entering the annual percentage yield (APY), default is 10%, with values ranging from 1% to 50%. -->
+          </div>
+          
+        </form>
+        
+        <div id="error-message" class="error-message"></div>
+        <!-- Placeholder for displaying any error messages. -->
+
+      </section>
+
+      <section class="output-section">
+        <!-- Section that will display the results after the calculations. -->
+        
+        <div class="results">
+          <!-- Div container for displaying the result values. -->
+          
+          <p><strong>Initial Amount:</strong> ₹<span id="displayInitialAmount">1,00,000</span></p>
+          <!-- Paragraph displaying the initial amount value, ₹100,000 by default. -->
+          
+          <p><strong>Projected Amount:</strong> ₹<span id="projectedAmount">0.00</span></p>
+          <!-- Paragraph displaying the projected amount, initially set to ₹0.00 until calculation is performed. -->
+        </div>
+        
+        <div class="graph-container">
+          <!-- Container for holding the graph that shows the investment growth over time. -->
+          
+          <canvas id="investmentGraph"></canvas>
+          <!-- Canvas element where the graph will be rendered using JavaScript (Chart.js). -->
+        </div>
+        
+        <table id="resultTable">
+          <!-- Table displaying the detailed investment year-wise. -->
+          
+          <thead>
+            <!-- Table header defining the columns for Year and Investment Amount. -->
+            <tr>
+              <th>Year</th>
+              <th>Investment Amount (₹)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Table body where each year's investment amount will be dynamically inserted. -->
+          </tbody>
+        </table>
+        
+      </section>
+      
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Chart.js library for generating charts. -->
+
+  <script>
+    // Initialize chartInstance for graph rendering
+    let chartInstance;
+
+    // Helper function to format numbers in Indian numbering system
+    // Formats a number into a string with commas as per Indian numbering convention
+    const indianNumberFormat = (num) => num.toLocaleString('en-IN', { maximumFractionDigits: 2 });
+
+    // Function to update the investment graph with new data
+    const updateGraph = (dataPoints) => {
+      // Get the context of the canvas where the graph is drawn
+      const ctx = document.getElementById('investmentGraph').getContext('2d');
+
+      // Check if chartInstance already exists, to avoid creating a new chart each time
+      if (chartInstance) {
+        // Update the labels and dataset for the existing graph
+        chartInstance.data.labels = dataPoints.map(dp => dp.year);
+        chartInstance.data.datasets[0].data = dataPoints.map(dp => dp.amount);
+        chartInstance.update();  // Update the graph to reflect new data
+      } else {
+        // If no chart exists, create a new one
+        chartInstance = new Chart(ctx, {
+          type: 'line',  // Type of the chart is a line chart
+          data: {
+            labels: dataPoints.map(dp => dp.year),  // Set the x-axis labels as the years
+            datasets: [{
+              label: 'Investment Growth',  // The label for the data series
+              data: dataPoints.map(dp => dp.amount),  // The y-axis data (amount over time)
+              borderColor: '#00ff88',  // Line color for the graph
+              borderWidth: 2,  // Line width
+              tension: 0.3,  // Smoothness of the curve
+            }],
+          },
+          options: {
+            responsive: true,  // Make the chart responsive to window size
+            plugins: { 
+              legend: { display: false }  // Hide the legend for the graph
+            },
+            scales: {
+              x: { 
+                title: { 
+                  display: true, 
+                  text: 'Years',  // Label for the x-axis
+                  color: 'white'  // Color of the x-axis title
+                }, 
+                ticks: { color: 'white' }  // Color of the x-axis ticks
+              },
+              y: { 
+                title: { 
+                  display: true, 
+                  text: 'Amount (₹)',  // Label for the y-axis
+                  color: 'white'  // Color of the y-axis title
+                }, 
+                ticks: { color: 'white' }  // Color of the y-axis ticks
+              },
+            },
+          },
+        });
+      }
+    };
+
+    // Calculation and rendering logic for investment projection
+    const calculate = () => {
+      // Get the values from the input fields
+      const initialAmountInput = document.getElementById('initialAmount');
+      const startYearInput = document.getElementById('startYear');
+      const endYearInput = document.getElementById('endYear');
+      const apyInput = document.getElementById('apy');
+
+      // Parse values from the inputs or set default values
+      let initialAmount = parseFloat(initialAmountInput.value) || 100;  // Default: ₹100
+      let startYear = parseInt(startYearInput.value) || 1980;  // Default: 1980
+      let endYear = parseInt(endYearInput.value) || 2100;  // Default: 2100
+      let apy = parseFloat(apyInput.value) || 1;  // Default: 1%
+
+      const errorMessage = document.getElementById('error-message');
+      errorMessage.textContent = '';  // Clear any previous error messages
+
+      // Adjust values to stay within allowed boundaries and set new values to inputs
+      if (initialAmount < 100) {
+        initialAmount = 100;
+        initialAmountInput.value = 100;
+      }
+      if (initialAmount > 100000000) {
+        initialAmount = 100000000;
+        initialAmountInput.value = 100000000;
+      }
+
+      if (startYear < 1980) {
+        startYear = 1980;
+        startYearInput.value = 1980;
+      }
+      if (endYear > 2100) {
+        endYear = 2100;
+        endYearInput.value = 2100;
+      }
+      if (apy < 1) {
+        apy = 1;
+        apyInput.value = 1;
+      }
+      if (apy > 50) {
+        apy = 50;
+        apyInput.value = 50;
+      }
+
+      // Validate that the end year is greater than the start year
+      if (startYear >= endYear) {
+        errorMessage.textContent = "End Year must be greater than Start Year.";  // Show error message
+        return;  // Stop further execution if validation fails
+      }
+
+      // Calculate the number of years between the start and end year
+      const years = endYear - startYear;
+      
+      // Calculate the projected amount using compound interest formula
+      const projectedAmount = initialAmount * Math.pow(1 + apy / 100, years);
+
+      // Update the displayed values for initial and projected amounts
+      document.getElementById('displayInitialAmount').innerText = indianNumberFormat(initialAmount);
+      document.getElementById('projectedAmount').innerText = indianNumberFormat(projectedAmount);
+
+      // Prepare data for the graph and table
+      const dataPoints = [];
+      const tableBody = document.querySelector('#resultTable tbody');
+      tableBody.innerHTML = '';  // Clear any existing rows in the table
+
+      // Loop through each year and calculate the investment amount
+      for (let i = 0; i <= years; i++) {
+        const year = startYear + i;
+        const amount = initialAmount * Math.pow(1 + apy / 100, i);
+        dataPoints.push({ year, amount });
+
+        // Add a new row to the table for certain years (e.g., every 6th year or the last year)
+        if (i % Math.ceil(years / 6) === 0 || i === years) {
+          const row = document.createElement('tr');
+          row.innerHTML = `<td>${year}</td><td>₹${indianNumberFormat(amount)}</td>`;
+          tableBody.appendChild(row);
+        }
+      }
+
+      // Update the graph with the newly calculated data points
+      updateGraph(dataPoints);
+    };
+
+    // Real-time updates based on user input
+    document.querySelectorAll('input').forEach(input => input.addEventListener('input', calculate));
+
+    // Initial calculation when the page loads
+    calculate();
+
+  </script>
+
+
+</body>
+</html>
