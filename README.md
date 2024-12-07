@@ -5,6 +5,8 @@ The Return Calculator is a tool that calculates and visualizes the growth of an 
 
 The **Return Calculator** is a web-based tool that calculates and visualizes the growth of an investment over time using the compound interest formula. It allows users to input their initial investment, start and end years, and annual percentage yield (APY) to see projected returns. The tool updates calculations in real-time, displays a line chart of the investment’s growth, and provides a detailed year-by-year breakdown of the investment.
 
+![image](https://github.com/user-attachments/assets/dce8ad5a-a0b5-4bfe-a3e1-c09d4aa3fe1c)
+
 ## Features
 - **Real-Time Calculations**: Automatic updates as users input data for investment amount, start year, end year, and APY.
 - **Interactive Line Chart**: A graph that visually represents the investment growth over time.
