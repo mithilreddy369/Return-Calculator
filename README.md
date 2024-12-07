@@ -25,7 +25,7 @@ The **Return Calculator** is a web-based tool that calculates and visualizes the
 ## Installation
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/return-calculator.git
+    git clone https://github.com/mithilreddy369/return-calculator.git
     ```
 2. Open `index.html` in a web browser to use the tool.
 
